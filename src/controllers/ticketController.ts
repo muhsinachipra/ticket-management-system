@@ -1,14 +1,34 @@
+import { validationResult } from 'express-validator';
 import { pool } from '../config/database';
 import { Request, Response } from 'express';
 
+export interface User {
+    id: number;
+    type: 'admin' | 'customers';
+}
+
 export const createTicket = async (req: Request, res: Response) => {
-    const { title, description, type, venue, status, price, priority, dueDate, createdBy } = req.body;
-    const createdById = Number(createdBy)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+        return
+    }
+
+    const { title, description, type, venue, status, price, priority, dueDate } = req.body;
+    const user = req.user as User;
+    const createdBy = user.id
     try {
+        const userCheck = await pool.query("SELECT id FROM users WHERE id = $1", [createdBy]);
+        if (userCheck.rows.length === 0) {
+            res.status(400).json({ error: "Invalid user: createdBy does not exist" });
+            return
+        }
+
         const result = await pool.query(
-            'INSERT INTO tickets (title, description, type, venue, status, price, priority, due_date, created_by, assigned_users) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
-            [title, description, type, venue, status, price, priority, dueDate, createdById, '[]']
+            'INSERT INTO tickets (title, description, type, venue, status, price, priority, due_date, created_by, assigned_users) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id, title, description, type, venue, status, price, priority, due_date, created_by, assigned_users',
+            [title, description, type, venue, status, price, priority, dueDate, createdBy, '{}']
         );
+
         res.status(201).json(result.rows[0]);
     } catch (err) {
         console.error("Database Error: ", err);

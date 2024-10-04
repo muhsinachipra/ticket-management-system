@@ -1,3 +1,5 @@
+// src\models\Ticket.ts
+
 export interface Ticket {
   id: number;
   title: string;
