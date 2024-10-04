@@ -2,7 +2,7 @@
 
 import { Router } from "express";
 import { createUser, loginUser } from "../controllers/userController";
-import { validateUserCreation, validateLogin } from "../middleware/validationMiddleware";
+import { validateUserCreation, validateLogin } from "../validators/usersValidation";
 import limiter from "../middleware/rateLimiter";
 
 const router = Router();

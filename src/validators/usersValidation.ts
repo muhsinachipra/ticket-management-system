@@ -1,5 +1,3 @@
-// src\middleware\validationMiddleware.ts
-
 import { body } from "express-validator";
 
 export const validateUserCreation = [
