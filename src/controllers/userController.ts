@@ -6,11 +6,9 @@ import { pool } from "../config/database";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-// Create a new user
 export const createUser = async (req: Request, res: Response) => {
   const { name, email, password, type } = req.body;
 
-  // Validate incoming request data
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
@@ -18,7 +16,6 @@ export const createUser = async (req: Request, res: Response) => {
   }
 
   try {
-    // Check if the email already exists
     const existingUser = await pool.query("SELECT id FROM users WHERE email = $1", [email]);
     if ((existingUser.rowCount ?? 0) > 0) {
       res.status(400).json({ error: "Email is already in use" });
@@ -39,11 +36,9 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-// Login a user
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
-  // Validate incoming request data
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
@@ -69,14 +64,13 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       { expiresIn: "1h" }
     );
 
-    // Set the token as a cookie in the response
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: 3600000,  // 1 hour
     });
-    res.status(200).json({ message: "Login successful",token });
+    res.status(200).json({ message: "Login successful", token });
   } catch (err) {
     console.error("Database Error: ", err);
     res.status(500).json({ error: "Error logging in" });
