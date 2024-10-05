@@ -114,17 +114,17 @@ Here are some of the available endpoints:
 
 ### User Endpoints
 
-- **POST** `/register` - Register a new user
-- **POST** `/login` - Log in an existing user
+- **POST** `/api/register` - Register a new user
+- **POST** `/api/login` - Log in an existing user
 
 ### Ticket Endpoints
 
-- **POST** `/tickets` - Create a new ticket
+- **POST** `/api/tickets` - Create a new ticket
 - **GET** `/api/tickets` - Retrieve all tickets
 - **GET** `/api/tickets/:ticketId` - Retrieve a ticket by ID
-- **POST** `/tickets/:ticketId/assign` - Assign a user to a specific ticket
-- **GET** `/tickets/analytics` - Get ticket analytics with optional query parameters
-- **GET** `/dashboard/analytics` - Get ticket dashboard analytics
+- **POST** `/api/tickets/:ticketId/assign` - Assign a user to a specific ticket
+- **GET** `/api/tickets/analytics` - Get ticket analytics with optional query parameters
+- **GET** `/api/dashboard/analytics` - Get ticket dashboard analytics
 
 ## Contributing
 
