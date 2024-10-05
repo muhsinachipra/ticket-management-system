@@ -112,12 +112,19 @@ The server will run on `http://localhost:3000`.
 
 Here are some of the available endpoints:
 
+### User Endpoints
+
+- **POST** `/register` - Register a new user
+- **POST** `/login` - Log in an existing user
+
+### Ticket Endpoints
+
+- **POST** `/tickets` - Create a new ticket
 - **GET** `/api/tickets` - Retrieve all tickets
-- **GET** `/api/tickets/:id` - Retrieve a ticket by ID
-- **POST** `/api/tickets` - Create a new ticket
-- **PUT** `/api/tickets/:id` - Update an existing ticket
-- **DELETE** `/api/tickets/:id` - Delete a ticket
-- **GET** `/dashboard/analytics` - Get ticket analytics with optional query parameters
+- **GET** `/api/tickets/:ticketId` - Retrieve a ticket by ID
+- **POST** `/tickets/:ticketId/assign` - Assign a user to a specific ticket
+- **GET** `/tickets/analytics` - Get ticket analytics with optional query parameters
+- **GET** `/dashboard/analytics` - Get ticket dashboard analytics
 
 ## Contributing
 
